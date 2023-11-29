@@ -3,12 +3,16 @@ all:
     nginx:
       hosts:
         nginx01:
-          ansible_host: 52.195.245.5
+          ansible_host: 127.0.0.1
     webapp:
       hosts:
         webapp01:
-          ansible_host: 52.195.245.5
+          ansible_host: 127.0.0.1
     db:
       hosts:
         db01:
-          ansible_host: 54.64.61.102
+          ansible_host: 127.0.0.1
+    benchmarker:
+      hosts:
+        benchmarker01:
+          ansible_host: 127.0.0.1
