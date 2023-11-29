@@ -258,3 +258,40 @@ Resources:
     Properties:
       Domain: vpc
       InstanceId: !Ref FinalInstance3
+  FinalBenchmarker:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: "ami-006d211cb716fe8a0"
+      InstanceType: c5.xlarge
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      SubnetId: !Ref Subnet
+      PrivateIpAddress: "192.168.0.14"
+      IamInstanceProfile: !Ref InstanceProfile
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 40
+            VolumeType: gp3
+      Tags:
+        - Key: Name
+          Value: isucon13-final-benchmarker
+      UserData:
+        Fn::Base64: |
+          #cloud-config
+          write_files:
+          - path: /home/isucon/.ssh/authorized_keys
+            owner: isucon:isucon
+            permissions: '0600'
+            encoding: b64
+            content: "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUx2R0NCSjhnZHRGUWdoK1JqZGJjZVhpV1VCTXBLcUI3UlNDYkJNVXdGb04KCnNzaC1yc2EgQUFBQUIzTnphQzF5YzJFQUFBQURBUUFCQUFBQ0FRREt4ZkoxbHJaSzZNb0FNekF5UXdhem9GUkZBNmdNazVvQS80djZhbi8yaTlYb2tyczFHVUloejhYeWJSV1FjY0lCQUJmUmxSTUppTkVWN1ZjbzErQnNOV2FUQm9vUW04QVhheHRxTGlhL1JjZndXaGtMc1ZCWWFqRElPaWphclFReThQUTA2R1NDdDdHeTAxcUpPL252VjVGZFdFalc4Smc3OXJPdmhiQUZzeEZFMERtYXE2WFBhd1VNRmNlMFlMb3BoVUJuZnF3TGpLTTJCUG1GVlRQUjhaU0FGMmVYM1J6akVJNU5jSEptUWh4RThKREJPR2lvK1JQeUFMSExML242bHZMMjJqUWFWYmpHLzhnc0xraG5BbEdPSXQ5UFV0U1g0Vlk1ajM3NlJ1NTE1aUw4MUw2cGFrTWlOV21MZzZJUnAySHBid1ZTMXJWbTJDQ21DQ1JYQU5YMkk0cDNGZ2FYbzl5MWd4K09yUHY4Y3VHTCsrVUNQVU5EdWV6K3NiYzY5Ui9PV29ESmpSMkkvTnlQSEtUNDdGanZZMGxTcnEzR3FvWndHRFdPY0FZcmV5VXFRVHhpWXJKbHJEUTlKWWkrKzhzcE5XS09iek96SE9RNE5vVzVhQWtMRFRxSlMwYUtiUkpDYm9sUktxSzNaaEQvdWtkT0dQYmtLeEtmc0JmamQ1YWU0eElSUUdBRGZ6ZEovcWFpZFN1V3NNMEEyMDZJMUpxY1lHK3VwSkRMRS9vMDZJNTVvN2czUFZrZkRZR0cwWmlNYzhmTk5oN3NtcEJZUFcxZ2syZjQ4b3VqT2RaeVdrck1VaDhSQUNlT2lJZ2FsVzh0ZkRpWGxnQlBSODR6YU0rRit4dG1Cc0NESzc2M0tlMHdJb2JuZ3UvZmUyQmVSUkd3YkQ5TERRPT0Kc3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUgwNFhpbG42ZTdLN1I1YnRMUDlWS3kxQVQ4SVVEU1p1V1B3L3NUZnd0aEUKCnNzaC1lZDI1NTE5IEFBQUFDM056YUMxbFpESTFOVEU1QUFBQUlFdFk1ZlZaNk91bWZqSU14ZHBIRHNLZWdYYWJRSCtFdjVPWHhGWTVaeGkrCg=="
+          - path: /opt/isucon-env-checker/portal_credentials.json
+            owner: root:root
+            permissions: '0644'
+            encoding: b64
+            content: "eyJkZXYiOiBmYWxzZSwgInRva2VuIjogInVhMERDRldhVjRZRE5sKkx2aSRwVV5SQSNabEVrcXB4czhTbjdROE5qREtlXmokNjNYT2t2dGdiZUBPTmNCdUoiLCAiaG9zdCI6ICJwb3J0YWwuaXN1Y29uLm5ldCJ9"
+  FinalBenchmarkerIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref FinalBenchmarker
